@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>축제봇</title>
+    <style>
+        /* 전체 페이지 스타일링 */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0; /* Light gray background */
+            color: #333; /* Dark gray text color */
+        }
+
+        /* 네비게이션 스타일링 */
+        nav {
+            background-color: #004488; /* Deep blue background for the navigation */
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+        }
+
+        nav li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* 채팅 메시지 스타일링 */
+        .message-box {
+            border: 1px solid #004488; /* Deep blue border */
+            padding: 10px;
+            margin: 10px;
+            background-color: #e6f7ff; /* Light blue background */
+            border-radius: 10px;
+        }
+
+        /* 채팅 입력 및 전송 버튼 스타일링 */
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+        }
+
+        input {
+            padding: 10px;
+            border: 1px solid #ddd; /* Light gray border */
+            border-radius: 5px;
+            margin-top: 10px;
+            width: 60%;
+        }
+
+        button {
+            border: none;
+            background-color: #004488; /* Deep blue button background */
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        /* 이미지 스타일링 */
+        #img {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+        }
+
+        /* 헤더 스타일링 */
+        h1 {
+            background-color: #004488; /* Deep blue background for the header */
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin: 0;
+        }
+
+        /* 결과 목록 스타일링 */
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        /* 제목 스타일링 */
+        h2 {
+            text-align: center;
+            font-size: 24px;
+            color: #004488;
+            margin-top: 20px;
+        }
+
+        /* 탑 10 검색어 스타일링 */
+        .top-search-rankings {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* 수정된 스타일 */
+        .top-search-rankings ol {
+            list-style-type: none;
+            padding: 0;
+            counter-reset: item;
+        }
+
+        .top-search-rankings ol li {
+            counter-increment: item;
+            margin-top: 10px;
+        }
+
+        .top-search-rankings ol li::before {
+            content: counter(item) ".";
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>축제봇</h1>
+    <form method="POST">
+        <label for="user_preference">선호하는 축제명 및 컨텐츠를 입력해주세요:</label>
+        <input type="text" name="user_preference" id="user_preference" value="{{ user_preference }}">
+        <button type="submit">입력</button>
+    </form>
+
+    <h2>추천 결과:</h2>
+    <ul>
+        {% for recommendation in recommendations %}
+        <li class="message-box">
+            <strong>이름:</strong> {{ recommendation['Name'] }}<br>
+            <strong>내용:</strong> {{ recommendation['Content'] }}<br>
+            <strong>장소:</strong> {{ recommendation['Location'] }}<br>
+            <strong>기간:</strong> {{ recommendation['Start Date'] }} ~ {{ recommendation['End Date'] }}<br>
+            {% if recommendation['Website'] %}
+            <strong>링크:</strong> <a href="{{ recommendation['Website'] }}" target="_blank">바로 가기</a><br>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <!-- 탑 10 검색어를 표시하는 섹션 추가 -->
+    <div class="top-search-rankings">
+        <h2>인기 검색어 TOP 10</h2>
+        <ol>
+            {% for rank, keyword in top_search_rankings %}
+                <li> {{ keyword }}</li>
+            {% endfor %}
+        </ol>
+    </div>
+
+</body>
+</html>
